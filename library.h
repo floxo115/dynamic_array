@@ -1,0 +1,6 @@
+#ifndef DYNAMIC_ARRAY_LIBRARY_H
+#define DYNAMIC_ARRAY_LIBRARY_H
+
+void hello(void);
+
+#endif //DYNAMIC_ARRAY_LIBRARY_H
