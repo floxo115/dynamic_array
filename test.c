@@ -19,6 +19,8 @@ void test_darray_init() {
     TEST_ASSERT_EQUAL(4, da->type_size);
 }
 
+// TODO test append
+
 void test_darray_access() {
     DArray *da = darray_init(sizeof(int32_t), 10);
     da->len = 10;
