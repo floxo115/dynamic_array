@@ -19,11 +19,23 @@ void test_darray_init() {
     TEST_ASSERT_EQUAL(4, da->type_size);
 }
 
+void test_darray_access() {
+    DArray *da = darray_init(sizeof(int32_t), 10);
+    da->len = 10;
+
+    for (size_t i = 0; i < da->len; i++)
+        *(int *) darray_access(da, i) = (int) i;
+
+    for (size_t i = 0; i < da->len; i++)
+        TEST_ASSERT_EQUAL(i, *(int *) darray_access(da, i));
+}
+
 // not needed when using generate_test_runner.rb
 int main(void) {
     UNITY_BEGIN();
 
     RUN_TEST(test_darray_init);
+    RUN_TEST(test_darray_access);
 
     return UNITY_END();
 }

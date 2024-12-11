@@ -10,5 +10,6 @@ typedef struct {
 } DArray;
 
 DArray *darray_init(size_t, size_t);
+void *darray_access(DArray *, size_t);
 
 #endif //DYNAMIC_ARRAY_LIBRARY_H
