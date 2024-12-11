@@ -7,4 +7,4 @@ add_subdirectory("extern/Unity")
 add_library(dynamic_array STATIC library.c)
 
 add_executable(test test.c library.c)
-target_link_libraries(test PRIVATE unity)
+target_link_libraries(test PRIVATE unity m)
