@@ -32,12 +32,47 @@ void test_darray_access() {
         TEST_ASSERT_EQUAL(i, *(int *) darray_access(da, i));
 }
 
+void test_darray_insert() {
+    DArray *da = darray_init(sizeof(int32_t), 10);
+
+    for (size_t i = 0; i < 9; i++) {
+        darray_append(da, &i);
+    }
+
+    darray_insert(da, 5, (int32_t []){100});
+
+    // for (size_t i = 0; i < da->len; i++) {
+    //     printf("%d\n", *(int *) darray_access(da, i));
+    // }
+
+    for (size_t i = 0; i < 5; i++)
+        TEST_ASSERT_EQUAL(i, *(int *) darray_access(da, i));
+
+    TEST_ASSERT_EQUAL(100, *(int *) darray_access(da, 5));
+
+    for (size_t i = 6; i < 10; i++) {
+        TEST_ASSERT_EQUAL(i - 1, *(int *) darray_access(da, i));
+    }
+
+    darray_insert(da, 0, (int32_t []){1000});
+    for (size_t i = 0; i < da->len; i++) {
+        printf("%d: %d\n", i, *(int *) darray_access(da, i));
+    }
+    TEST_ASSERT_EQUAL(1000, *(int *) darray_access(da, 0));
+    for (size_t i = 1; i < 6; i++)
+        TEST_ASSERT_EQUAL(i-1, *(int *) darray_access(da, i));
+    TEST_ASSERT_EQUAL(100, *(int *) darray_access(da, 6));
+    for (size_t i = 7; i < 10; i++)
+        TEST_ASSERT_EQUAL(i-2, *(int *) darray_access(da, i));
+}
+
 // not needed when using generate_test_runner.rb
 int main(void) {
     UNITY_BEGIN();
 
     RUN_TEST(test_darray_init);
     RUN_TEST(test_darray_access);
+    RUN_TEST(test_darray_insert);
 
     return UNITY_END();
 }

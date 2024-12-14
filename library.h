@@ -17,4 +17,7 @@ void *darray_access(DArray *, size_t);
 
 bool darray_append(DArray *, void *value);
 
+bool darray_insert(DArray *da, size_t pos, void *value);
+
+
 #endif //DYNAMIC_ARRAY_LIBRARY_H
