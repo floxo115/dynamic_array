@@ -115,7 +115,7 @@ bool darray_remove(DArray *da, size_t pos) {
     if (da->len == 0) {
         darray_clear(da);
     } else if (da->len < da->cap / 2) {
-        void *newdata = realloc(da->data, da->cap / 2);
+        void *newdata = realloc(da->data, (da->cap / 2) * da->type_size);
         if (newdata != NULL) {
             da->data = newdata;
             da->cap = da->cap / 2;
