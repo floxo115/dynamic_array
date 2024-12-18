@@ -81,6 +81,51 @@ void test_darray_clear() {
     TEST_ASSERT_NULL(da->data);
 }
 
+void test_darray_remove() {
+    DArray *da = darray_init(sizeof(int32_t), 10);
+
+    for (size_t i = 0; i < 10; i++) {
+        darray_append(da, (int32_t *) &i);
+    }
+
+    bool ok = darray_remove(da, 9);
+    TEST_ASSERT_TRUE(ok);
+    TEST_ASSERT_EQUAL(9, da->len);
+    TEST_ASSERT_EQUAL(10, da->cap);
+    int *expected = (int []){0, 1, 2, 3, 4, 5, 6, 7, 8};
+    for (size_t i = 0; i < da->len; i++)
+        TEST_ASSERT_EQUAL(expected[i], *(int *)darray_access(da, i));
+
+
+    ok = darray_remove(da, 0);
+    TEST_ASSERT_TRUE(ok);
+    TEST_ASSERT_EQUAL(8, da->len);
+    TEST_ASSERT_EQUAL(10, da->cap);
+    expected = (int []){1, 2, 3, 4, 5, 6, 7, 8};
+    for (size_t i = 0; i < da->len; i++)
+        TEST_ASSERT_EQUAL(expected[i], *(int *)darray_access(da, i));
+
+
+    ok = darray_remove(da, 5);
+    TEST_ASSERT_TRUE(ok);
+    TEST_ASSERT_EQUAL(7, da->len);
+    TEST_ASSERT_EQUAL(10, da->cap);
+    expected = (int []){1, 2, 3, 4, 5, 7, 8};
+    for (size_t i = 0; i < da->len; i++)
+        TEST_ASSERT_EQUAL(expected[i], *(int *)darray_access(da, i));
+
+    ok = darray_remove(da, 0);
+    ok = darray_remove(da, 0);
+    ok = darray_remove(da, 0);
+    ok = darray_remove(da, 0);
+    TEST_ASSERT_TRUE(ok);
+    TEST_ASSERT_EQUAL(3, da->len);
+    TEST_ASSERT_EQUAL(5, da->cap);
+    expected = (int []){5, 7, 8};
+    for (size_t i = 0; i < da->len; i++)
+        TEST_ASSERT_EQUAL(expected[i], *(int *)darray_access(da, i));
+}
+
 
 int main(void) {
     UNITY_BEGIN();
@@ -89,6 +134,7 @@ int main(void) {
     RUN_TEST(test_darray_access);
     RUN_TEST(test_darray_insert);
     RUN_TEST(test_darray_clear);
+    RUN_TEST(test_darray_remove);
 
     return UNITY_END();
 }

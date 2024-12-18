@@ -21,5 +21,7 @@ bool darray_insert(DArray *da, size_t pos, void *value);
 
 bool darray_clear(DArray *da);
 
+bool darray_remove(DArray *da, size_t pos);
+
 
 #endif //DYNAMIC_ARRAY_LIBRARY_H

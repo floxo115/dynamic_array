@@ -1,4 +1,6 @@
 #include "library.h"
+
+#include <locale.h>
 #include <stdlib.h>
 #include <memory.h>
 
@@ -92,6 +94,33 @@ bool darray_clear(DArray *da) {
     da->len = 0;
     free(da->data);
     da->data = NULL;
+
+    return true;
+}
+
+bool darray_remove(DArray *da, size_t pos) {
+    if (da == NULL)
+        return false;
+    if (pos >= da->len)
+        return false;
+
+    memmove(
+        (char *) da->data + pos * da->type_size,
+        (char *) da->data + (pos + 1) * da->type_size,
+        (da->len - pos - 1) * da->type_size
+    );
+
+    da->len--;
+
+    if (da->len == 0) {
+        darray_clear(da);
+    } else if (da->len < da->cap / 2) {
+        void *newdata = realloc(da->data, da->cap / 2);
+        if (newdata != NULL) {
+            da->data = newdata;
+            da->cap = da->cap / 2;
+        }
+    }
 
     return true;
 }
