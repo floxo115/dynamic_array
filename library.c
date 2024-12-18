@@ -83,3 +83,16 @@ bool darray_insert(DArray *da, size_t pos, void *value) {
     return true;
 }
 
+bool darray_clear(DArray *da) {
+    if (da == NULL)
+        return false;
+    if (da->data == NULL)
+        return true;
+
+    da->len = 0;
+    free(da->data);
+    da->data = NULL;
+
+    return true;
+}
+
