@@ -1,5 +1,7 @@
 #include<unity.h>
 #include<stddef.h>
+#include <stdlib.h>
+
 #include "library.h"
 
 void setUp(void) {
@@ -17,6 +19,17 @@ void test_darray_init() {
     TEST_ASSERT_EQUAL(0, da->len);
     TEST_ASSERT_NOT_NULL(da->data);
     TEST_ASSERT_EQUAL(4, da->type_size);
+
+    free(da->data);
+    free(da);
+}
+
+void test_darray_destroy() {
+    DArray *da = darray_init(sizeof(int32_t), 10);
+
+    bool ok = darray_destroy(&da);
+    TEST_ASSERT_TRUE(ok);
+    TEST_ASSERT_NULL(da);
 }
 
 // TODO test append
@@ -30,6 +43,8 @@ void test_darray_access() {
 
     for (size_t i = 0; i < da->len; i++)
         TEST_ASSERT_EQUAL_INT(i, *(int *) darray_access(da, i));
+
+    darray_destroy(&da);
 }
 
 void test_darray_insert() {
@@ -60,6 +75,8 @@ void test_darray_insert() {
     TEST_ASSERT_EQUAL(100, *(int *) darray_access(da, 6));
     for (size_t i = 7; i < 10; i++)
         TEST_ASSERT_EQUAL(i-2, *(int *) darray_access(da, i));
+
+    darray_destroy(&da);
 }
 
 void test_darray_clear() {
@@ -79,6 +96,8 @@ void test_darray_clear() {
     TEST_ASSERT_TRUE(ok);
     TEST_ASSERT_EQUAL(0, da->len);
     TEST_ASSERT_NULL(da->data);
+
+    darray_destroy(&da);
 }
 
 void test_darray_remove() {
@@ -124,6 +143,8 @@ void test_darray_remove() {
     expected = (int []){5, 7, 8};
     for (size_t i = 0; i < da->len; i++)
         TEST_ASSERT_EQUAL(expected[i], *(int *)darray_access(da, i));
+
+    darray_destroy(&da);
 }
 
 
@@ -131,6 +152,7 @@ int main(void) {
     UNITY_BEGIN();
 
     RUN_TEST(test_darray_init);
+    RUN_TEST(test_darray_destroy);
     RUN_TEST(test_darray_access);
     RUN_TEST(test_darray_insert);
     RUN_TEST(test_darray_clear);
