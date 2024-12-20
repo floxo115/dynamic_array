@@ -11,7 +11,9 @@ typedef struct {
     void *data;
 } DArray;
 
-DArray *darray_init(size_t, size_t);
+DArray *darray_init(size_t type_size, size_t cap);
+
+bool darray_destroy(DArray **da_p);
 
 void *darray_access(DArray *, size_t);
 

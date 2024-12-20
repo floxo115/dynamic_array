@@ -22,6 +22,28 @@ DArray *darray_init(size_t type_size, size_t cap) {
     return da;
 }
 
+bool darray_destroy(DArray **da_p) {
+    if (da_p == NULL)
+        return false;
+
+    DArray *da = *da_p;
+    if (da == NULL)
+        return false;
+
+    da->len = 0;
+    da->cap = 0;
+
+    if (da->data != NULL) {
+        free(da->data);
+        da->data = NULL;
+    }
+
+    free(da);
+    *da_p = NULL;
+
+    return true;
+}
+
 bool resize_darray_(DArray *da) {
     size_t new_cap = da->cap * 2;
     void *new_data = realloc(da->data, da->type_size * new_cap);
